@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from '../Components/FirbaseData/firbase.init'
 import { FaEye } from "react-icons/fa";import { FaEyeSlash } from "react-icons/fa6";
 
@@ -43,6 +43,10 @@ export default function Login() {
         .then(result =>{
             console.log(result.user)
             setSuccess(true)
+            sendEmailVerification(auth.currentUser)
+            .then(() => {
+                 console.log("Email Verification sent!")
+             })
         })
         .catch(error => {
             console.log("error", error)
@@ -80,7 +84,7 @@ export default function Login() {
                             <div className="mb-5">
                                 <h3 className=' text-right text-blue-500'><Link to="/register">Register Here</Link></h3>
                                 {error && <p className=' text-red-500'>{error}</p>}
-                                {success && <p className=' text-green-500'>Successfully create user</p>}
+                                {success && <p className=' text-green-500'>Register Successfully</p>}
                             </div>
                             <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Log-In</button>
                         </form>
